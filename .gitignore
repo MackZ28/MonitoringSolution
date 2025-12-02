@@ -1,0 +1,28 @@
+# Общие
+*.DS_Store
+*.env
+*.env.*
+*.log
+node_modules/
+.vscode/
+.idea/
+
+# Docker
+**/bin/
+**/obj/
+docker-compose.override.yml
+.env
+
+# Backend (C#)
+backend/bin/
+backend/obj/
+backend/.vs/
+backend/Debug/
+backend/Release/
+
+# Frontend (React)
+frontend/node_modules/
+frontend/build/
+
+
+

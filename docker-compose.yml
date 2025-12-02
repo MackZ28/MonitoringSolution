@@ -1,0 +1,52 @@
+services:
+  database:
+    image: postgres:15
+    container_name: sensor-database
+    environment:
+      POSTGRES_DB: sensordb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - sensor-network
+
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: sensor-backend
+    ports:
+      - "5000:5000"
+    environment:
+      ConnectionStrings__DefaultConnection: "Host=database;Port=5432;Database=sensordb;Username=postgres;Password=password"
+      ASPNETCORE_URLS: "http://+:5000"
+      ASPNETCORE_ENVIRONMENT: "Development"
+    depends_on:
+      - database
+    networks:
+      - sensor-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: sensor-frontend
+    ports:
+      - "3000:80"  # Хост:3000 → Контейнер:80
+    environment:
+      REACT_APP_API_URL: "http://localhost:5000"
+    depends_on:
+      - backend
+    networks:
+      - sensor-network
+
+networks:
+  sensor-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
