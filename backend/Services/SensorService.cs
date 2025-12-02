@@ -41,17 +41,17 @@ namespace MonitoringSolution.Services
                 {
                     foreach (var sensorSummary in dataList)
                     {
-                        sensorSummary.Status = GetStatus(sensorSummary.LastValue, sensorSummary.Max,sensorSummary.Min);
+                        sensorSummary.Status = GetStatus(sensorSummary.LastValue);
                     }
                 }
 
             return dataList.OrderBy(s => s.SensorId);
         }
         
-        private string GetStatus(double? currentValue, double? maxValue, double? minValue)
+        private string GetStatus(double? currentValue)
         {
-            if (currentValue > 90 || minValue < 5) return "ERROR";
-            if (currentValue > 70 || minValue < 15) return "WARNING";
+            if (currentValue < 5 || currentValue > 90  ) return "ERROR";
+            if (currentValue < 15 || currentValue > 70  ) return "WARNING";
             return "OK";
         }
     }

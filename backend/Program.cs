@@ -1,9 +1,7 @@
-
-using MonitoringSolution.Services.Interfaces;
-using MonitoringSolution.Services;
-using Npgsql;
-using MonitoringSolution.Repositories.Interfaces;
 using MonitoringSolution.Repositories;
+using MonitoringSolution.Repositories.Interfaces;
+using MonitoringSolution.Services;
+using MonitoringSolution.Services.Interfaces;
 
 namespace MonitoringSolution
 {
