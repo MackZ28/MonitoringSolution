@@ -46,6 +46,7 @@ const SensorTable: React.FC<SensorTableProps> = ({ data, loading, error }) => {
             <TableCell align="right"><strong>Max</strong></TableCell>
             <TableCell align="right"><strong>Average</strong></TableCell>
             <TableCell align="right"><strong>Value</strong></TableCell>
+            <TableCell align="center"><strong>Status</strong></TableCell>
             <TableCell><strong>Last Update</strong></TableCell>
           </TableRow>
         </TableHead>
@@ -59,6 +60,7 @@ const SensorTable: React.FC<SensorTableProps> = ({ data, loading, error }) => {
               <TableCell align="right">{sensor.max.toFixed(2)}</TableCell>
               <TableCell align="right">{sensor.average.toFixed(2)}</TableCell>
               <TableCell align="right">{sensor.lastValue !== undefined ? sensor.lastValue.toFixed(2) : '-'}</TableCell>
+              <TableCell align="center">{sensor.status ?? '-'}</TableCell>
               <TableCell>{formatDate(sensor.lastUpdate)}</TableCell>
             </TableRow>
           ))}
