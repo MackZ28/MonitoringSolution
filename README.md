@@ -39,7 +39,7 @@ cd MonitoringSolution
 
 ## Запуск в контейнерах(с использованием Docker Compose)
 
-1. Необходимо чтобы на машине был установлен Docker(Docker Desktop, Compose)
+1. Необходимо чтобы на машине был установлен и запущен Docker(Docker Desktop, Compose)
 2. Запустить проект из коря проекта(где находится `docker-compose.yml`)
 
    ```bash

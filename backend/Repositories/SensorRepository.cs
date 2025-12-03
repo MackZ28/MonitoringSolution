@@ -24,25 +24,19 @@ namespace MonitoringSolution.Repositories
                 var sql = @"INSERT INTO public.sensor_data (sensorid, current_value)
                             VALUES (@SensorId, @Value);
 
-                            -- 2. Обновляем агрегаты в sensor_state
                             WITH latest_window AS (
                                 SELECT current_value
                                 FROM public.sensor_data
                                 WHERE sensorid = @SensorId
                                 ORDER BY ""timestamp"" DESC
                                 LIMIT @Limit
-                            ),
-                            combined AS (
-                                SELECT current_value FROM latest_window
-                                UNION ALL
-                                SELECT @Value AS current_value  -- на случай, если @Limit = 1 и значение ещё не в истории
-                            ),
-                            stats AS (
+
+                            ),state AS (
                                 SELECT
                                     MIN(current_value) AS new_min,
                                     MAX(current_value) AS new_max,
                                     AVG(current_value) AS new_avg
-                                FROM combined
+                                FROM latest_window
                             )
                             INSERT INTO public.sensor_state (
                                 sensorid,
@@ -54,12 +48,12 @@ namespace MonitoringSolution.Repositories
                             )
                             SELECT
                                 @SensorId,
-                                stats.new_min,
-                                stats.new_max,
-                                stats.new_avg,
+                                state.new_min,
+                                state.new_max,
+                                state.new_avg,
                                 @Value,
                                 CURRENT_TIMESTAMP
-                            FROM stats
+                            FROM state
                             ON CONFLICT (sensorid)
                             DO UPDATE SET
                                 min_value = EXCLUDED.min_value,
