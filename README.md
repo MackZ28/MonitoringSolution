@@ -46,8 +46,7 @@ cd MonitoringSolution
     docker-compose up --build
    ```
 
-3. После успешного запуска должны работать 3 адреса: 
-    - Backend: http://localhost:5000
+3. После успешного запуска должны работать 2 адреса: 
     - Swagger backend: http://localhost:5000/swagger
     - Frontend: http://localhost:3000
 
